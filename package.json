@@ -1,6 +1,6 @@
 {
   "name": "jlpt-tab",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Jlpt questions in new tab",
   "author": "Lars Holdaas",
   "engines": {
@@ -20,8 +20,10 @@
     "hooks": {}
   },
   "dependencies": {
+    "@types/chrome": "0.0.116",
+    "@types/vue": "^2.0.0",
     "axios": "^0.19.0",
-    "vue": "^2.6.10",
+    "vue": "^2.6.11",
     "webextension-polyfill": "^0.3.1"
   },
   "devDependencies": {
@@ -52,6 +54,9 @@
     "node-sass": "^4.9.3",
     "prettier": "^1.17.1",
     "sass-loader": "^7.1.0",
+    "terser-webpack-plugin": "^3.0.6",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5",
     "vue-loader": "^15.4.2",
     "vue-template-compiler": "^2.6.10",
     "web-ext-types": "^2.1.0",

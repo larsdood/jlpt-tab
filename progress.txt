@@ -1,0 +1,11 @@
+1:w1d2 (goi w1d1)
+2:w1d2
+3:w1d2
+
+4-5:
+kanji, bunpou 
+w1d4
+(minus bunpou 31,33,35,39)
+
+goi
+w1d2

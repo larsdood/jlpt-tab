@@ -5,14 +5,13 @@ const CopyPlugin = require('copy-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
 const { VueLoaderPlugin } = require('vue-loader');
 const { version } = require('./package.json');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = {
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
     'background': './background.js',
-    'popup/popup': './popup/popup.js',
-    'options/options': './options/options.js',
     'tab/tab': './tab/tab.js'
   },
   output: {
@@ -20,13 +19,27 @@ const config = {
     filename: '[name].js',
   },
   resolve: {
-    extensions: ['.js', '.vue'],
+    extensions: [ '.ts', '.js', '.vue' ],
   },
   module: {
     rules: [
       {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/,
+        // options: {
+        //   appendTsSuffixTo: [/.vue$/]
+        // }
+      },
+      {
         test: /\.vue$/,
         loader: 'vue-loader',
+        exclude: /node_modules/,
+        options: {
+          loaders: {
+            'scss': 'vue-style-loader!css-loader!sass-loader',
+          }
+        }
       },
       {
         test: /\.js$/,
@@ -77,9 +90,8 @@ const config = {
     }),
     new CopyPlugin([
       { from: 'icons', to: 'icons', ignore: ['icon.xcf'] },
-      { from: 'popup/popup.html', to: 'popup/popup.html', transform: transformHtml },
-      { from: 'options/options.html', to: 'options/options.html', transform: transformHtml },
       { from: 'tab/tab.html', to: 'tab/tab.html', transform: transformHtml },
+      { from: 'tab/tab.css', to: 'tab/tab.css' },
       { from: 'tab/MPLUS1p-Medium.ttf', to: 'tab/MPLUS1p-Medium.ttf' },
       {
         from: 'manifest.json',
@@ -107,6 +119,18 @@ if (config.mode === 'production') {
       },
     }),
   ]);
+  config.optimization = {
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: false,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          }
+        }
+      })
+    ]
+  }
 }
 
 if (process.env.HMR === 'true') {
