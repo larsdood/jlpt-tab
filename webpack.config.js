@@ -4,15 +4,16 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
 const { VueLoaderPlugin } = require('vue-loader');
-const { version } = require('./package.json');
 const TerserPlugin = require('terser-webpack-plugin');
+const { version } = require('./package.json');
 
 const config = {
+  devtool: 'cheap-module-source-map',
   mode: process.env.NODE_ENV,
   context: __dirname + '/src',
   entry: {
-    'background': './background.js',
-    'tab/tab': './tab/tab.js'
+    background: './background.js',
+    'tab/tab': './tab/tab.js',
   },
   output: {
     path: __dirname + '/dist',
