@@ -105,6 +105,23 @@ const patterns = {
     patterns: [{
       sentence: "SOL N_country に | 行ってきました。"
     }]
+  }],
+  "英語": [{
+    kanji: "英語",
+    yomikata: "えいご",
+    kanjiAlts: [
+      "央語",
+      "英五",
+      "央五",
+    ],
+    yomikataAlts: [
+      "えご",
+      "えごう",
+      "えいごう",
+    ],
+    patterns: [{
+      sentence: "N_name は | SOL が 話せますか？",
+    }]
   }]
 }
 
