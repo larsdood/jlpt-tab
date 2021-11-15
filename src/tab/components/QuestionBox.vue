@@ -2,33 +2,24 @@
   <div class="question-content">
     <div v-bind:class="questionType + '-box content-box'">
       <div class="question-header">
-        {{title}}
+        {{ title }}
       </div>
       <div class="question-text-wrapper">
         <div id="kanji-question">
-          <span class="question-text-block" v-for="questionSubText in questionTextElements" v-bind:key="questionSubText[0]+questionSubText[1]+questionSubText[2]">
-            {{ questionSubText[0] }}<u>{{ questionSubText[1] }}</u>{{ questionSubText[2] }}
+          <span class="question-text-block" v-for="questionSubText in questionTextElements" v-bind:key="questionSubText[0] + questionSubText[1] + questionSubText[2]">
+            {{ questionSubText[0] }}<u>{{ questionSubText[1] }}</u
+            >{{ questionSubText[2] }}
           </span>
         </div>
       </div>
-      <div 
-        v-if="!chosen"
-        class="answer-buttons-wrapper">
-        <button
-          v-bind:class="questionType + '-answer answer-button active'"
-          v-for="alt in alts"
-          v-bind:key="alt"
-          v-on:click="chooseAlternative(alt)"
-          :disabled="!!chosen"
-        >
+      <div v-if="!chosen" class="answer-buttons-wrapper">
+        <button v-bind:class="questionType + '-answer answer-button active'" v-for="alt in alts" v-bind:key="alt" v-on:click="chooseAlternative(alt)" :disabled="!!chosen">
           {{ alt }}
         </button>
       </div>
-      <div 
-        v-if="!!chosen"
-        class="answer-buttons-wrapper">
+      <div v-if="!!chosen" class="answer-buttons-wrapper">
         <button
-          v-bind:class="(alt === correct ? 'correct' : 'incorrect') + ' ' + (alt === chosen ? 'chosen' : '' ) + ' answer-button'"
+          v-bind:class="(alt === correct ? 'correct' : 'incorrect') + ' ' + (alt === chosen ? 'chosen' : '') + ' answer-button'"
           v-for="alt in alts"
           v-bind:key="alt"
           disabled="true"
@@ -42,60 +33,55 @@
 
 <script>
 import { shuffle } from '../scripts/utils/shuffle';
+
 export default {
-  props: [
-    'questionSet',
-    'questionType'
-  ],
+  props: ['questionSet', 'questionType'],
   watch: {
     questionSet: {
-      handler: function(value) {
+      handler(value) {
         console.log(value.questionText);
         this.questionTextElements = value.questionText
           .replace('~', '（　）')
           .split('|')
-          .map((substring) => substring.split('_'));
-        console.log(this.questionTextElements)
+          .map(substring => substring.split('_'));
+        console.log(this.questionTextElements);
         if (value.alts.includes(value.correct)) {
-          throw new Error('correct value ' + value.correct + ' is contained in alts: ' + alts.join(','));
+          throw new Error(`correct value ${value.correct} is contained in alts: ${alts.join(',')}`);
         }
-        const alts = [
-          value.correct,
-          ...value.alts,
-        ];
+        const alts = [value.correct, ...value.alts];
         this.alts = shuffle(alts);
         this.correct = value.correct;
         this.chosen = undefined;
-      }
-    }
+      },
+    },
   },
-  data: function() {
+  data() {
     const titleLookup = {
       kanji: '漢字',
       goi: 'ごい',
-      bunpou: '文法'
-    }
+      bunpou: '文法',
+    };
     return {
       questionTextElements: [],
       alts: [],
       title: titleLookup[this.questionType],
       chosen: undefined,
-      correct: undefined
-    }
+      correct: undefined,
+    };
   },
   methods: {
     chooseAlternative(val) {
       console.log(val);
       this.chosen = val;
       this.$emit('alternativeChosen', this.questionType);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
 button {
-  outline:none
+  outline: none;
 }
 .question-content {
   font-size: 2em;
@@ -113,13 +99,13 @@ button {
 }
 
 .kanji-box {
-  background-color: #FF9AA2;
+  background-color: #ff9aa2;
 }
 .goi-box {
-  background-color: #C7CEEA;
+  background-color: #c7ceea;
 }
 .bunpou-box {
-  background-color: #E2F0CB;
+  background-color: #e2f0cb;
 }
 .answer-buttons-wrapper {
   display: grid;
@@ -181,7 +167,7 @@ button {
     border-bottom: solid 4px red;
     &:hover {
       border-bottom: solid 4px red;
-  }
+    }
   }
   &:hover {
     border-bottom: solid 4px #888;

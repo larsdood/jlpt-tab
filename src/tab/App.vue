@@ -6,12 +6,12 @@
         v-for="levelChoice in levelChoices"
         v-bind:key="levelChoice"
         v-on:click="setLevel(levelChoice)"
-        >
+      >
         N{{ levelChoice }}
       </button>
     </div>
-      <GoogleSearch v-if="chosenCount >= 3"></GoogleSearch>
-      
+    <GoogleSearch v-if="chosenCount >= 3"></GoogleSearch>
+
     <QuestionBox
       questionType="kanji"
       v-bind:question-set="kanjiQuestionSet"
@@ -77,14 +77,14 @@ export default {
       chrome.storage.local.set({ level: levelChoice }, () => {
         this.level = levelChoice;
         this.generateTestSet(this.level);
-      })
+      });
+      this.chosenCount = 0;
     },
 
     generateTestSet(level) {
       const testSet = generateTestSet(level);
-      console.log(generateTestSet(level));
       this.kanjiQuestionSet = testSet.kanji;
-      this.goiQuestionSet =  testSet.goi;
+      this.goiQuestionSet = testSet.goi;
       this.bunpouQuestionSet = testSet.bunpou;
     },
 
@@ -93,9 +93,8 @@ export default {
       this.generateTestSet(this.level);
     },
 
-    alternativeChosen(arg1) {
+    alternativeChosen() {
       this.chosenCount += 1;
-      console.log('message from child:', arg1);
     }
   },
   components: {
@@ -117,14 +116,14 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #333
+  color: #333;
 }
 p {
   font-size: 20px;
 }
 
 button {
-  outline:none
+  outline: none;
 }
 
 .main-wrapper {
@@ -132,7 +131,7 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #333
+  color: #333;
 }
 
 .title {
@@ -141,10 +140,10 @@ button {
 
 .level-buttons {
   margin: 16px 0 4px;
-      width: 366px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+  width: 366px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 .level-button {
   padding: 4px 20px;
@@ -187,7 +186,6 @@ button {
   color: #02337e;
   background-color: #e6f0ff;
   border-bottom: 4px solid #1c75fc;
-  
 }
 .again-button {
   margin-top: 8px;
@@ -198,7 +196,7 @@ button {
   padding: 4px;
   color: #6e1237;
   background-color: #fbe9f0;
-  &:hover{
+  &:hover {
     filter: brightness(92%);
     cursor: pointer;
   }
@@ -212,7 +210,6 @@ button {
     width: 100%;
   }
 }
-
 </style>
 
 <style>
